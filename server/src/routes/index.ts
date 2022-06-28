@@ -11,7 +11,7 @@ const Router = express.Router();
 Router.route('/')
   .get((req, res) => {
     return res.status(200).json({
-      message: 'Welcome to population Management API',
+      message: 'Welcome to metrics API',
     });
   });
 

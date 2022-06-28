@@ -1,0 +1,21 @@
+.add-metric-inputs {
+  display: flex;
+}
+
+.add-metric-inputs .input-wrapper:last-child {
+  flex: 1 0 200px;
+}
+
+.add-metric-inputs .submit-button {
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .add-metric-inputs {
+    flex-wrap: wrap; 
+  }
+
+  .add-metric-inputs .input-wrapper:last-child {
+    max-width: 100%;
+  }
+}

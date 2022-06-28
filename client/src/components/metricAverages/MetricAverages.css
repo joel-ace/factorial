@@ -1,0 +1,11 @@
+.average-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  text-align: center;
+  align-items: center;
+}
+
+.average-wrapper.center-text {
+  justify-content: center;
+}

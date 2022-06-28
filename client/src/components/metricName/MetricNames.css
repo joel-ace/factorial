@@ -1,0 +1,20 @@
+.metric-names-wrapper {
+  display: flex;
+  width: 30%;
+  height: 200px;
+  border-right: 1px solid #e3e3e3;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.metric-names-wrapper .center-text {
+  width: 100%
+}
+
+.metric-names-wrapper .input-wrapper {
+  margin-right: 20px;
+}
+
+.metric-names-wrapper .input-wrapper select {
+  width: 100%;
+}

@@ -28,12 +28,15 @@ export const createMetric = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
-  let page = 0;
+  let page = 1;
   let limit = 20;
   const findQuery = {};
 
-  if (req.query.page || req.query.limit) {
+  if (req.query.page) {
     page = Number(req.query.page);
+  }
+
+  if (req.query.limit) {
     limit = Number(req.query.limit);
   }
 
@@ -44,8 +47,8 @@ export const getMetrics = async (req: Request, res: Response, next: NextFunction
   const offset = page > 0 ? (( page - 1 ) * limit) : 0;
 
   try {
-    const metrics = await Metric.find(findQuery).skip(offset).limit(limit);
-    return res.status(200).send({ data: metrics });
+    const metrics = await Metric.find(findQuery).skip(offset).limit(limit).sort({ createdAt: -1 });
+    return res.status(200).send({ metrics });
   } catch (error: any) {
     handleError(res, error.message);
   }
@@ -54,7 +57,7 @@ export const getMetrics = async (req: Request, res: Response, next: NextFunction
 export const getMetricNames = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const metricNames = await MetricName.find();
-    return res.status(200).send({ data: metricNames });
+    return res.status(200).send({ metricNames });
   } catch (error: any) {
     handleError(res, error.message);
   }
@@ -83,7 +86,7 @@ export const getAverages = async (req: Request, res: Response, next: NextFunctio
   );
 
   return res.status(200).send({
-    data: {
+    average: {
       lastMin: averages[0].lastMin[0]?.average || 0,
       lastHour: averages[0].lastHour[0]?.average || 0,
       lastDay: averages[0].lastDay[0]?.average || 0,

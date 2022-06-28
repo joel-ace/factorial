@@ -1,0 +1,15 @@
+.downshift-wrapper {
+  position: relative;
+}
+
+.downshift-wrapper ul {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: absolute;
+}
+
+.downshift-wrapper ul li {
+  padding: 10px;
+  border: 1px solid #cccccc;
+}
