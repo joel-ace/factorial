@@ -54,6 +54,7 @@
   background-color: #ff355e;
   color: white;
   border: 1px solid #ff355e;
+  font-size: 1em;
 }
 
 .input-wrapper button:disabled,
@@ -64,4 +65,11 @@
 
 .center-text {
   text-align: center;
+}
+
+.error-messages {
+  padding: 10px 20px;
+  background: #fed2db;
+  color: #ff355e;
+  margin-bottom: 20px;
 }

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { MetricNamesContext } from '../context/MetricNamesContext';
 
-import type { IMetricNamesContext } from '../context/MetricNamesContext';
+import type { IMetricNamesContext } from '../types';
 
 const useMetricNames = (): IMetricNamesContext => {
   const context = useContext(MetricNamesContext);

@@ -5,6 +5,7 @@ import {
   getMetricNames,
   getAverages,
 } from '../controller';
+import { validate, schemas } from '../middleware/validate';
 
 const Router = express.Router();
 
@@ -16,14 +17,14 @@ Router.route('/')
   });
 
 Router.route('/metrics')
-  .post(createMetric)
-  .get(getMetrics);
+  .post(validate(schemas.create, 'body'), createMetric)
+  .get(validate(schemas.get, 'query'), getMetrics);
 
   Router.route('/metric-names')
   .get(getMetricNames);
 
 
 Router.route('/average/:name')
-  .get(getAverages)
+  .get(validate(schemas.average, 'params'), getAverages)
 
 export default Router;

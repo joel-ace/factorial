@@ -12,7 +12,7 @@ const MetricAverages = () => {
   });
 
   if (!selectedMetric) {
-    return <div className="average-wrapper center-text">Select a metric name to view the average for that metric</div>
+    return <div data-testid="select-metric-message" className="average-wrapper center-text">Select a metric name to view the average for that metric</div>
   }
 
   return (

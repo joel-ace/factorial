@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { RequestStateWrapper } from '../common/RequestStateWrapper';
 import { useGetMetrics, useMetricNames } from '../../hooks';
+import { showPaginationInfo } from '../../utilities/helpers';
+
 import './Metrics.css';
 
 const Metrics: React.FC = () => {
   const [page, setPage ] = useState<number>(1);
   const { selectedMetric } = useMetricNames();
-  const { data = [], isLoading, isError } = useGetMetrics({
+  const { data: { metrics = [], pagination } = {}, isLoading, isError } = useGetMetrics({
     page,
     name: selectedMetric,
   });
-  const heading = `Metrics${selectedMetric ?  ` - [${selectedMetric}]` : ''}`;
+
+  const heading = `Metrics${selectedMetric ?  ` - [ ${selectedMetric} ]` : ''}`;
 
   useEffect(() => {
     setPage(1);
@@ -18,19 +21,21 @@ const Metrics: React.FC = () => {
 
   return (
     <section className="section metrics-section">
-      <h2>{heading}</h2>
+      <h2 data-testid="metric-heading">{heading}</h2>
       <RequestStateWrapper isLoading={isLoading} isError={isError}>
-        {data.length ? (
+        {metrics.length ? (
           <div>
-            {data.map((metric) => (
+            {pagination && <p data-testid="pagination">{showPaginationInfo(pagination)}</p>}
+            {metrics.map((metric) => (
               <div className="metric" key={metric._id}>
-                <div className="date metric-data">{new Date(metric.createdAt).toLocaleString()}</div>
-                <div className="name metric-data">{metric.name}</div>
-                <div className="value metric-data">{metric.value}</div>
+                <div data-testid="metric-date" className="date metric-data">{new Date(metric.createdAt).toLocaleString()}</div>
+                <div data-testid="metric-name" className="name metric-data">{metric.name}</div>
+                <div data-testid="metric-value" className="value metric-data">{metric.value}</div>
               </div>
             ))}
             <div className='pagination-buttons-wrapper input-wrapper'>
-              <button 
+              <button
+                data-testid="previous-button"
                 disabled={page === 1} 
                 onClick={() => setPage((prevPage) => prevPage - 1)} 
                 type="button" 
@@ -39,6 +44,8 @@ const Metrics: React.FC = () => {
                 Previous
               </button>
               <button
+                data-testid="next-button"
+                disabled={pagination?.pageCount === page}
                 onClick={() => setPage((prevPage) => prevPage + 1)} 
                 type="button" 
                 className='submit-button'

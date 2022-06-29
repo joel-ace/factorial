@@ -2,13 +2,17 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Metric from '../models/Metric';
 import MetricName from '../models/MetricName';
-import { handleError, generateAverageQuery } from '../utilities/utils';
+import { handleError,
+  sanitizeNameInput,
+  generateAverageQuery,
+  generatePaginationData
+} from '../utilities/utils';
 
 export const createMetric = async (req: Request, res: Response, next: NextFunction) => {
   const { name, value } = req.body;
 
   const metric = new Metric({
-    name,
+    name: sanitizeNameInput(name),
     value,
     _id: new mongoose.Types.ObjectId()
   });
@@ -21,7 +25,7 @@ export const createMetric = async (req: Request, res: Response, next: NextFuncti
     if (!metricNameInDb) {
       metricName.save();
     }
-    return res.status(201).send({ newMetric });
+    return res.status(201).send({ metric: newMetric });
   } catch (error: any) {
     handleError(res, error.message);
   }
@@ -41,14 +45,35 @@ export const getMetrics = async (req: Request, res: Response, next: NextFunction
   }
 
   if (req.query.name) {
-    findQuery['name'] = req.query.name;
+    findQuery['name'] = sanitizeNameInput(req.query.name.toString());
   }
 
   const offset = page > 0 ? (( page - 1 ) * limit) : 0;
 
   try {
-    const metrics = await Metric.find(findQuery).skip(offset).limit(limit).sort({ createdAt: -1 });
-    return res.status(200).send({ metrics });
+    const metricsData = await Metric.aggregate(
+      [
+        {
+          '$facet': {
+            results: [
+              { $match: findQuery },
+              { $sort: { 'createdAt': -1 } },
+              { $skip: offset },
+              { $limit: limit },
+            ],
+            totalCount: [
+              { $match: findQuery },
+              { $count: 'count' },
+            ],
+          }
+        }
+      ]
+    );
+
+    return res.status(200).send({
+      pagination: generatePaginationData(page, limit, metricsData[0].results.length, metricsData[0].totalCount[0]?.count || 0),
+      metrics: metricsData[0].results,
+    });
   } catch (error: any) {
     handleError(res, error.message);
   }
@@ -56,7 +81,7 @@ export const getMetrics = async (req: Request, res: Response, next: NextFunction
 
 export const getMetricNames = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const metricNames = await MetricName.find();
+    const metricNames = await MetricName.find().sort({ name: 1 });
     return res.status(200).send({ metricNames });
   } catch (error: any) {
     handleError(res, error.message);

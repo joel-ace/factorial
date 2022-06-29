@@ -1,10 +1,9 @@
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import { getMetrics } from '../api';
 
-import type { UseQueryResult } from 'react-query';
-import type { IMetricResponse, IGetMetricQueryParams } from '../api';
+import type { IMetricResponse, IGetMetricQueryParams } from '../types';
 
-const useGetMetrics = (params: IGetMetricQueryParams): UseQueryResult<IMetricResponse[]> => useQuery(
+const useGetMetrics = (params: IGetMetricQueryParams): UseQueryResult<IMetricResponse> => useQuery(
   [
     'metrics',
     params?.name,

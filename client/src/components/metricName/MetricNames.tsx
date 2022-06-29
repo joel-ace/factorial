@@ -2,7 +2,7 @@ import React from 'react';
 import { RequestStateWrapper } from '../common/RequestStateWrapper';
 import { useMetricNames } from '../../hooks';
 
-import type { IMetricNamesResponse } from '../../api';
+import type { IMetricNamesResponse } from '../../types';
 
 import './MetricNames.css';
 
@@ -24,7 +24,7 @@ const MetricNames = () => {
         <RequestStateWrapper isLoading={isLoading} isError={isError}>
           <div className="input-wrapper">
             <label htmlFor="metricNamesSelect" className="select-input">Select metric name</label>
-            <select value={selectedMetric} name="metric-names-input" id="metricNamesSelect" onChange={handleSelectChange}>
+            <select data-testid="metric-names-select" value={selectedMetric} name="metric-names-input" id="metricNamesSelect" onChange={handleSelectChange}>
               <option value=''>All Metrics</option>
               {metricNames.map((metric: IMetricNamesResponse) => (
                 <option 

@@ -1,4 +1,12 @@
 import axios from 'axios';
+import type {
+  IMetricResponse,
+  IAverageResponse,
+  IMetricNamesResponse,
+  IBaseMetric,
+  IMetric,
+  IGetMetricQueryParams,
+} from '../types';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -7,46 +15,17 @@ const api = axios.create({
   },
 });
 
-export interface IGetMetricQueryParams {
-  name?: string;
-  page?: number;
-  limit?: number;
-};
-
-export interface ICreateMetricParams {
-  name: string;
-  value: number;
-};
-
-export interface IMetricResponse {
-  _id: string;
-  name: string;
-  value: number;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export interface IAverageResponse {
-  lastMin: number;
-  lastHour: number;
-  lastDay: number;
-};
-
-export interface IMetricNamesResponse {
-  _id: number;
-  name: string;
-};
-
-export const createMetric = async (params: ICreateMetricParams) => {
+export const createMetric = async (params: IBaseMetric): Promise<IMetric> => {
   const response = await api.post('/metrics', { ...params });
-  return response.data.newMetric;
+  return response.data.metric;
 };
 
 export const getMetrics = async (queryParams?: IGetMetricQueryParams): Promise<IMetricResponse> => {
   const response = await api.get('/metrics', {
     params: queryParams,
   });
-  return response.data.metrics;
+  const { pagination, metrics } = response.data;
+  return { pagination, metrics };
 };
 
 export const getMetricNames = async (): Promise<IMetricNamesResponse[]> => {

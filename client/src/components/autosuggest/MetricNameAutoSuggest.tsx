@@ -1,7 +1,7 @@
 import React from 'react';
 import Downshift from 'downshift';
 
-import type { IMetricNamesResponse } from '../../api';
+import type { IMetricNamesResponse } from '../../types';
 
 import './MetricNameAutoSuggest.css';
 
@@ -34,7 +34,9 @@ const MetricNameAutoSuggest: React.FC<IMetricNameAutoSuggestProps> = ({ onChange
       }) => (
         <div className="downshift-wrapper">
           <label {...getLabelProps()}>{label}</label>
-          <input {...getInputProps()} />
+          <input {...getInputProps({
+            'data-testid': "metric-name-input",
+          })} />
           <ul {...getMenuProps()}>
             {isOpen
               ? optionList

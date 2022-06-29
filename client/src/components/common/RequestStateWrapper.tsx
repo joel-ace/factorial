@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface RequestStateWrapperProps {
+export interface RequestStateWrapperProps {
   children: React.ReactNode;
   isLoading: boolean;
   isError: boolean;

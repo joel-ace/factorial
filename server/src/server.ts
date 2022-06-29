@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors'; 
 import { config } from './config';
 import routes from './routes';
 
@@ -15,6 +16,8 @@ const startServer = () => {
   app.use(express.urlencoded({
     extended: false
   }));
+
+  app.use(cors());
 
   app.use(express.json());
 

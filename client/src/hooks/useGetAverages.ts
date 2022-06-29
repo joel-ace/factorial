@@ -1,15 +1,9 @@
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import { getAverages } from '../api';
 
-import type { UseQueryResult } from 'react-query';
-import type { IAverageResponse } from '../api';
+import type { IAverageResponse, IUseGetAverages } from '../types';
 
 const REFETCH_INTERVAL = 60000; // one minute
-
-interface IUseGetAverages {
-  name: string;
-  enabled: boolean;
-};
 
 const useGetAverages = ({ name, enabled }: IUseGetAverages): UseQueryResult<IAverageResponse> => useQuery(
   ['metric-average', name],

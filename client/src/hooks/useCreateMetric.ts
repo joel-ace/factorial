@@ -1,19 +1,18 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient, UseMutationResult } from "react-query";
 
 import { createMetric } from "../api";
-import type { ICreateMetricParams } from '../api';
+import type { IBaseMetric, IMetric } from '../types';
 
-const useCreateMetric = () => {
+const useCreateMetric = (): UseMutationResult<IMetric, unknown, IBaseMetric> => {
   const queryClient = useQueryClient();
-  const createMetricMutation = useMutation('create-metric', async (params: ICreateMetricParams) => {
+  return useMutation('create-metric', async (params: IBaseMetric) => {
     const response = await createMetric(params);
-    return response.data;
+    return response;
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
   });
-  return createMetricMutation;
 };
 
 export { useCreateMetric };

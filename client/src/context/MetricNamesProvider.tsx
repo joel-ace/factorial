@@ -7,7 +7,7 @@ interface IProps {
   children: React.ReactNode;
 };
 
-const MetricNamesProvider: FC<IProps> = ({ children }) => {
+const MetricNamesProvider: FC<IProps> = ({ children }): React.ReactElement => {
   const [selectedMetric, setSelectedMetric] = useState('');
   const { data, isLoading, isError } = useQuery('metric-names', getMetricNames);
 
