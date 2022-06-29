@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Metric from '../models/Metric';
 import MetricName from '../models/MetricName';
-import { handleError,
+import {
+  handleError,
   sanitizeNameInput,
   generateAverageQuery,
   generatePaginationData

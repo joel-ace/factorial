@@ -15,7 +15,9 @@
   },
   "exclude": [
     "node_modules",
-    ".npm"
+    ".npm",
+    "src/**/*.js",
+    "build"
   ],
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
 }

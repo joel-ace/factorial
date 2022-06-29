@@ -1,0 +1,20 @@
+{
+  "name": "factorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-server": "npm run test --prefix ./server",
+    "test-client": "npm run test a --prefix ./client",
+    "start-server:dev": "npm run dev --prefix ./server",
+    "start-client:dev": "npm start --prefix ./client",
+    "start:dev": "npm run start-server:dev & npm run start-client:dev",
+    "install-dependencies": "npm install --prefix ./server & npm install  --prefix ./client"
+  },
+  "author": "Joel",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  }
+}
