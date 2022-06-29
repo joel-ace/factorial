@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from 'express';
 import Metric from '../models/Metric';
 import MetricName from '../models/MetricName';
 import {
@@ -75,7 +74,7 @@ describe('getMetricNames', () => {
 
     it('should query for average values if there is a name param', async () => {
       req.params.name = 'age';
-      const averageSpy = jest.spyOn(Metric, 'aggregate').mockImplementation(() => averageResponse);
+      jest.spyOn(Metric, 'aggregate').mockImplementation(() => averageResponse);
 
       const response = await getAverages(req, res, next);
 
