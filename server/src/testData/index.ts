@@ -26,6 +26,7 @@ export const req = {
   query: {}
 } as Request;
 
+// TODO: properly mock and type res object
 export const res = {
   status: (status) => ({
     send: (data) => ({ status, ...data }),
