@@ -27,7 +27,7 @@ cd factorial
 ```bash
 npm run install-dependencies
 ```
-- Update rename `.env.sample` to `.env` and update environment variables
+- Rename `.env.sample` to `.env` and update environment variables. This project uses a MongoDB database. Update the env variables in the server directory with your mongodb url
 
 # Running the roject
 To run the file, from inside the factorial directory run
